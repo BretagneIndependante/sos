@@ -1,4 +1,5 @@
 import Map from "views/admin/default/components/Map";
+import Description from "views/admin/default/components/Description";
 
 const Dashboard = () => {
   return (
@@ -12,6 +13,9 @@ const Dashboard = () => {
 
       <div className="mt-5 grid grid-cols-1 gap-5">
         <Map />
+      </div>
+      <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <Description/>
       </div>
     </div>
   );
