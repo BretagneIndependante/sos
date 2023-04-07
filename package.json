@@ -1,0 +1,19 @@
+{
+  "name": "sos_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "mysql": "^2.18.1",
+    "uuid": "^9.0.0"
+  }
+}
