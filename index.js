@@ -39,6 +39,8 @@ app.get(`${APIversion}/account/login`, (req, res) => {
         }
         else if (accounts.length > 0) {
             res.send(uuid.generate('token'))
+            let query = 'UPDATE * FROM Account WHERE email = ? AND password = ?';
+
         }
         else {
             res.send(false)
