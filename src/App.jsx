@@ -9,6 +9,7 @@ const App = () => {
       <Route path="admin/:token" element={<AdminLayout />} />
       <Route path="user/*" element={<UserLayout />} />
       <Route path="/" element={<Navigate to="/admin" replace />} />
+      <Route path="/API" render={() => null} />
     </Routes>
   );
 };
