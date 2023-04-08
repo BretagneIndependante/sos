@@ -3,20 +3,6 @@ import Card from "components/card";
 import React from 'react';
 
 const Chat = () => {
-    const [messages] = React.useState([
-        { 
-            text: "Hello",
-            is_author: true
-        },
-        {
-            text: "Hi",
-            is_author: false
-        },
-        {
-            text: "How are you?",
-            is_author: true 
-        },
-    ]);
 
     const [inputValue, setInputValue] = React.useState("");
 

@@ -6,7 +6,6 @@ import * as turf from '@turf/turf';
 function Map(props) {
   const { lat, long } = props;
   mapboxgl.accessToken = "pk.eyJ1IjoiZGlub21hbGluIiwiYSI6ImNsZzc5MDZjdzBoZ2czZ3F5bjl5MGczMG0ifQ.Oo9ZHpmcJ6DdUsI8PKZ9VA";
-  const [map, setMap] = useState(null);
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: 'map',
