@@ -1,22 +1,40 @@
+import axios from 'axios';
 import VideoIcon from 'components/icons/VideoIcon';
 import React, {useRef, useState, useEffect} from 'react';
 
 const UserLayout = () => {
   const input  = useRef(null);
 
+  const [form, setForm] = useState({
+    attachments: '',
+    description: '',
+    latitude: '',
+    longitude: '',
+  });
+
   const handleClick = () => {
     input.current.click();
   }
 
   const handleChange = (event) => {
-    const file = event.target.files[0];
-    // faire quelque chose avec le fichier sélectionné
+    setForm({...form, [event.target.name]: event.target.value});
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios.post(`http://localhost:3001/API/v1/ticket/create?attachments=${form.attachments}&description=${form.description}&latitude=${form.latitude}&longitude=${form.longitude}`)
+    .then(response => {
+        console.log('Formulaire envoyé avec succès!');
+    })
+    .catch(error => {
+      console.error('Une erreur est survenue lors de l\'envoi du formulaire', error);
+    });
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className='w-full max-w-md'>
-        <form className='bg-white rounded-lg shadow-lg px-8 pt-6 pb-8 mb-4 flex flex-col justify center items-center'>
+        <form onSubmit={handleSubmit} className='bg-white rounded-lg shadow-lg px-8 pt-6 pb-8 mb-4 flex flex-col justify center items-center'>
             <div>
               <button className='my-4 bg-brand-500 hover:bg-brand-700 text-white font-bold py-2 px-4 rounded-[12px] focus:outline-none focus:shadow-outline flex items-center w-full shadow-md hover:shadow-lg
               ease-in-out duration-200' onClick={handleClick}>
@@ -31,7 +49,7 @@ const UserLayout = () => {
               <button></button>
             </div>
             <div>
-              <input className='my-4 bg-brand-500 hover:bg-brand-700 text-white font-bold py-2 px-4 rounded-[12px] focus:outline-none focus:shadow-outline flex w-full shadow-md hover:shadow-lg' type="submit" value="Submit"/>
+              <input className='my-4 bg-brand-500 hover:bg-brand-700 text-white font-bold py-2 px-4 rounded-[12px] focus:outline-none focus:shadow-outline flex w-full shadow-md hover:shadow-lg' type="submit" value="Envoyer"/>
             </div>
         </form>
       </div>
