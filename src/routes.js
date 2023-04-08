@@ -10,7 +10,7 @@ const routes = [
   {
     name: "Accueil",
     layout: "/admin",
-    path: "default",
+    path: "",
     icon: <MdHome className="h-6 w-6" />,
     component: <MainDashboard />,
   },
