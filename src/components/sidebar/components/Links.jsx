@@ -17,7 +17,7 @@ export function SidebarLinks(props) {
 
   const badgeColor = {
     "waiting": "bg-red-500",
-    "in-progress": "bg-yellow-300",
+    "in progress": "bg-yellow-300",
     "completed": "bg-green-300",
   }
 

@@ -159,7 +159,6 @@ async function getTickets(query) {
   let pattern = joi
     .object({
       token: joi.string().required(),
-      account_uuid: joi.string().required(),
     })
     .options({ allowUnknown: false });
 
@@ -167,10 +166,8 @@ async function getTickets(query) {
 
   if (!error) {
     const token = query.token;
-    const account_uuid = query.account_uuid;
-
-    const getUserSQL = "SELECT * FROM account WHERE uuid = ? AND token = ?";
-    const getUserParams = [account_uuid, token];
+    const getUserSQL = "SELECT * FROM account WHERE token = ?";
+    const getUserParams = [token];
     const getUser = await executeQuery(getUserSQL, getUserParams).catch(
       (error) => {
         return {
@@ -188,7 +185,7 @@ async function getTickets(query) {
     }
 
     const getTicketsSQL = "SELECT * FROM ticket ORDER BY time_stamp DESC";
-    const getTicketsParams = [account_uuid];
+    const getTicketsParams = [];
     const getTickets = await executeQuery(
       getTicketsSQL,
       getTicketsParams
@@ -242,11 +239,10 @@ async function sendChat(query) {
       };
     }
 
-    if (query.token && query.account_uuid) {
+    if (query.token) {
       const token = query.token;
-      const account_uuid = query.account_uuid;
-      const getUserSQL = "SELECT * FROM account WHERE uuid = ? AND token = ?";
-      const getUserParams = [account_uuid, token];
+      const getUserSQL = "SELECT * FROM account WHERE token = ?";
+      const getUserParams = [token];
 
       const getUser = await executeQuery(getUserSQL, getUserParams);
       console.log(getUser);
@@ -329,11 +325,10 @@ async function getChat(query) {
       };
     }
 
-    if (query.token && query.account_uuid) {
+    if (query.token) {
       const token = query.token;
-      const account_uuid = query.account_uuid;
-      const getUserSQL = "SELECT * FROM account WHERE uuid = ? AND token = ?";
-      const getUserParams = [account_uuid, token];
+      const getUserSQL = "SELECT * FROM account WHERE token = ?";
+      const getUserParams = [token];
 
       const getUser = await executeQuery(getUserSQL, getUserParams);
 
@@ -343,7 +338,7 @@ async function getChat(query) {
     }
 
     const getChatSQL =
-      "SELECT * FROM chat WHERE ticket_uuid = ? ORDER BY time_stamp DESC";
+      "SELECT * FROM chat WHERE ticket_uuid = ? ORDER BY time_stamp ASC";
     const getChatParams = [ticket_uuid];
     const getChat = await executeQuery(getChatSQL, getChatParams).catch(
       (error) => {

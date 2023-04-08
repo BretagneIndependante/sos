@@ -7,6 +7,12 @@ const multer = require("multer");
 
 require("dotenv").config();
 
+app.use(
+  cors({
+    origin: ["https://127.0.0.1:3000", "http://localhost:3000"],
+    optionsSuccessStatus: 200,
+  })
+);
 const APIversion = "/API/v1";
 
 const storage = multer.diskStorage({
@@ -30,13 +36,6 @@ const upload = multer({
     cb(null, true);
   },
 });
-
-app.use(
-  cors({
-    origin: "https://127.0.0.1:3000",
-    optionsSuccessStatus: 200,
-  })
-);
 
 app.get(`${APIversion}/account/login`, async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -79,6 +78,7 @@ app.post(`${APIversion}/chat/send`, async (req, res) => {
     "Access-Control-Allow-Headers",
     "X-Requested-With, Content-Type, Authorization"
   );
+  console.log(req);
   const resp = await api.sendChat(req.query);
   res.status(resp.status).send(resp.message);
 });

@@ -1,53 +1,22 @@
 import Card from "components/card";
-
+import axios from 'axios';
 import React, {useRef, useState} from 'react';
 
 const Chat = () => {
-    const [messages, setMessages] = useState([
-      {
-        text: "Hello, how are you?",
-        is_author: false,
-      },
-      {
-        text: "I'm fine, thanks!",
-        is_author: true,
-      },
-      {
-        text: "What about you?",
-        is_author: false,
-      },
-      {
-        text: "I'm fine too!",
-        is_author: true,
-      },
-      {
-        text: "Great!",
-        is_author: false,
-      },
-      {
-        text: "How is your day going?",
-        is_author: false,
-      },
-      {
-        text: "It's going great!",
-        is_author: true,
-      },
-      {
-        text: "That's good to hear!",
-        is_author: false,
-      },
-      {
-        text: "I'm glad to hear that!",
-        is_author: true,
-      }
-    ]);
+    const token = document.cookie.split(";").find(element => element.includes("token")).split("=")[1];
+    const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const input = useRef(null);
     const div = useRef(null);
-    
+    const ticketUID = window.location.pathname.split("/")[2]; 
+
+    axios.get("http://localhost:3001/API/v1/chat/get?token=" + token + "&ticket_uuid=" + ticketUID)
+    .then((response) => { setMessages(response.data) });
+
     function handleClick() {
       if (input.current.value === "") return;
-      setMessages(prevMessages => [...prevMessages, {text:input.current.value, is_author: true}]);
+      axios.post("http://localhost:3001/API/v1/chat/send?message=" + input.current.value + "&token=" + token + "&ticket_uuid=" + ticketUID)
+      //setMessages(prevMessages => [...prevMessages, {text:input.current.value, is_sender: true}]);
       setInputValue("");
       div.current.scrollTop = div.current.scrollHeight - div.current.clientHeight;
     }
@@ -67,15 +36,15 @@ const Chat = () => {
               <div
                 key={index}
                 className={`flex ${
-                  msg.is_author ? "justify-end" : "justify-start"
+                  msg.is_sender ? "justify-end" : "justify-start"
                 } mb-2`}
               >
                 <div
                   className={`rounded-full px-4 py-2 ${
-                    msg.is_author ? "bg-blue-500 text-white" : "bg-gray-300"
+                    msg.is_sender ? "bg-blue-500 text-white" : "bg-gray-300"
                   }`}
                 >
-                  {msg.text}
+                  {msg.message}
                 </div>
               </div>
             ))}

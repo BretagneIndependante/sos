@@ -3,9 +3,10 @@
 import { HiX } from "react-icons/hi";
 import Links from "./components/Links";
 import { layout } from "@chakra-ui/system";
-
+import axios, { Axios } from 'axios';
+import { useState } from 'react';
 const Sidebar = ({ open, onClose }) => {
-  const routes = [
+  const [routes,setRoutes] = useState([
     {
       name: "ticket-01",
       layout: "/admin",
@@ -18,7 +19,24 @@ const Sidebar = ({ open, onClose }) => {
       path: "ticket-02",
       status: "in-progress"
     }
-  ];
+  ]);
+  const token = document.cookie.split(";").find(element => element.includes("token")).split("=")[1];
+  const getRoutes = axios.get('http://localhost:3001/API/v1/ticket/get?token='+token).then((response) => {  
+    let tempRoutes = [];  
+    for(const route of response.data) {
+      tempRoutes.push({
+        name: 'ti-'+route.uuid.split('-')[1],
+        layout: '/admin',
+        path: route.uuid,
+        status: route.status
+      })
+    }
+    setRoutes(tempRoutes)
+  })
+  .catch((error) => { console.log(error) });
+  
+
+  
   return (
     <div
       className={`sm:none duration-175 linear fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all dark:!bg-navy-800 dark:text-white md:!z-50 lg:!z-50 xl:!z-0 ${

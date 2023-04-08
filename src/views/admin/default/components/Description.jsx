@@ -13,7 +13,7 @@ const Description = () => {
   
         <div className="md:mt-16 lg:mt-0 h-full">
           <div className="h-full w-full xl:h-full p-2">
-            <textarea readOnly className='h-full outline-none rounded-[15px] resize-none bg-[#F4F7FF] w-full p-4 shadow' name="text" id="" cols="30" rows="10">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit iusto temporibus ullam, veniam voluptate optio dolores praesentium eos exercitationem! Tenetur minima tempore officiis error quo eos. Nobis voluptas exercitationem temporibus tempore eum veniam accusantium sunt, doloribus perspiciatis. Atque in autem soluta, sequi neque, vero culpa dolor fugiat alias earum recusandae maiores dolorum ad ea libero consectetur tenetur cupiditate quibusdam. Minus asperiores iusto obcaecati hic, deserunt dolores at, soluta ullam ad dolore exercitationem? Magnam nulla reiciendis animi, quod voluptas ipsa quidem, corporis ratione odit praesentium error perspiciatis ea pariatur aperiam rem amet ducimus. Illo dolores quos sed laudantium a cumque, rerum quia sapiente iusto, natus, officia temporibus voluptatibus dolorem fuga vitae! Optio, cum voluptatibus? Quasi, ipsum minus illum accusamus consequuntur explicabo, sequi veniam repellendus dolorem sit laborum inventore necessitatibus odit soluta quod reiciendis aut perferendis enim sed! Placeat repudiandae blanditiis nesciunt?</textarea>
+            <textarea readOnly className='h-full outline-none rounded-[15px] resize-none bg-[#F4F7FF] w-full p-4 shadow' name="text" id="" cols="30" rows="10">Je me baladais dans la rue lorsque j'ai aperçu ces 3 individus en train d'agresser une jeune femme.</textarea>
             </div>
         </div>
       </Card>

@@ -22,7 +22,7 @@ const Navbar = (props) => {
             className="text-sm font-normal capitalize text-navy-700 hover:underline dark:text-white dark:hover:text-white"
             to="#"
           >
-            {brandText}
+            {"ti-"+brandText.split("-")[1]}
           </Link>
         </div>
         <p className="shrink text-[33px] capitalize text-navy-700 dark:text-white">
@@ -30,7 +30,7 @@ const Navbar = (props) => {
             to="#"
             className="font-bold capitalize hover:text-navy-700 dark:hover:text-white"
           >
-            {brandText}
+            {"ti-"+brandText.split("-")[1]}
           </Link>
         </p>
       </div>
