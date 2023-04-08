@@ -1,10 +1,56 @@
 import Card from "components/card";
 
-import React from 'react';
+import React, {useRef, useState} from 'react';
 
 const Chat = () => {
-
-    const [inputValue, setInputValue] = React.useState("");
+    const [messages, setMessages] = useState([
+      {
+        text: "Hello, how are you?",
+        is_author: false,
+      },
+      {
+        text: "I'm fine, thanks!",
+        is_author: true,
+      },
+      {
+        text: "What about you?",
+        is_author: false,
+      },
+      {
+        text: "I'm fine too!",
+        is_author: true,
+      },
+      {
+        text: "Great!",
+        is_author: false,
+      },
+      {
+        text: "How is your day going?",
+        is_author: false,
+      },
+      {
+        text: "It's going great!",
+        is_author: true,
+      },
+      {
+        text: "That's good to hear!",
+        is_author: false,
+      },
+      {
+        text: "I'm glad to hear that!",
+        is_author: true,
+      }
+    ]);
+    const [inputValue, setInputValue] = useState("");
+    const input = useRef(null);
+    const div = useRef(null);
+    
+    function handleClick() {
+      if (input.current.value === "") return;
+      setMessages(prevMessages => [...prevMessages, {text:input.current.value, is_author: true}]);
+      setInputValue("");
+      div.current.scrollTop = div.current.scrollHeight - div.current.clientHeight;
+    }
 
     return (
       <Card extra="flex flex-col bg-white w-full rounded-3xl py-6 px-2 text-center">
@@ -16,7 +62,7 @@ const Chat = () => {
   
         <div className="h-full mx-2 rounded-lg bg-[#F4F7FF]">
           <div className="h-full w-full flex flex-col">
-          <div className="flex-grow overflow-auto justify-end px-4 pt-6 pb-8">
+          <div ref={div} className="scroll-smooth flex-grow flex-col-reverse overflow-y-scroll h-96 justify-end px-4 pt-6 pb-8 scroll-bottom">
             {messages.map((msg, index) => (
               <div
                 key={index}
@@ -36,6 +82,7 @@ const Chat = () => {
           </div>
           <div className="flex items-center border-t-2 py-2 px-4">
             <input
+              ref={input}
               type="text"
               placeholder="Type a message"
               value={inputValue}
@@ -44,6 +91,7 @@ const Chat = () => {
             />
             <button
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full"
+              onClick={handleClick}
             >
               Send
             </button>

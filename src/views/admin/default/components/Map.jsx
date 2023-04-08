@@ -1,6 +1,6 @@
 import Card from "components/card";
 import mapboxgl from 'mapbox-gl';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import * as turf from '@turf/turf';
 
 function Map(props) {
