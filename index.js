@@ -1,29 +1,33 @@
 const express = require("express");
 const cors = require("cors");
 const joi = require('joi');
-const uuid = require("./lib/id.js")
 var mysql = require('mysql');
 const app = express();
+const api = require('./src/js/api/function.js')
+const multer = require('multer')
 
 require('dotenv').config();
 
-var db = mysql.createConnection({
-  host     : process.env.DB_HOST,
-  port     : process.env.DB_PORT,
-  user     : process.env.DB_USER,
-  password : process.env.DB_PASSWORD,
-  database : process.env.DB_NAME
-});
-
-db.connect(function(err) {
-    if (err) {
-        return console.error('error: ' + err.message);
-    }
-          
-     console.log('Connected to the MySQL server.');
-});
-
 const APIversion = "/API/v1"
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname))
+  }
+})
+  
+const upload = multer({ 
+  storage: storage,
+  fileFilter: function (req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+      return cb(new Error('Only image files are allowed!'))
+    }
+    cb(null, true)
+  }
+})
 
 function check(token) {
     db.get('account', { token: token}, function (accounts) {
@@ -31,48 +35,20 @@ function check(token) {
     })
 }
 
-
 app.use(cors());
 
-app.get(`${APIversion}/account/login`, (req, res) => {
-    // if(!check(req.header.token)) {
-    //     res.status(401).send('ERROR: Invalid token')
-    // }
+app.get(`${APIversion}/account/login`, async (req, res) => {
+    const resp = await api.login(req.query)
+    res.status(resp.status).send(resp.message)
+})
 
-    let pattern = joi.object({
-        email: joi.string().required(),
-        password: joi.string().required()
-    }).options({ allowUnknown: false });
-    
-    let { error } = pattern.validate(req.query);
-    
-    if (error) {
-        return res.status(400).send(error.details[0].message);
-    }
+app.get(`${APIversion}/ticket/create`, upload.array("images"), async (req, res) => {
+    const resp = await api.createTicket(req.query)
+    res.status(resp.status).send(resp.message)
+})
 
-    let query = 'SELECT * FROM Account WHERE email = ? AND password = ?';
-    let params = [req.query.email, req.query.password];
-    db.query(query, params, {error, result }).then(accounts => {
-        if(error) {
-            res.status(503).send('')
-        }
-        else if (accounts.length > 0) {
-            let token = uuid.generate('token')
-            let query = 'UPDATE Account SET token = ? WHERE id = ?';
-            let params = [req.query.id, token]
-            db.query(query, params, {error, result }).then( response => {
-                if(error) {
-                    res.status(503).send('')
-                }
-                else {
-                    res.send(id)
-                }
-            })
-        }
-        else {
-            res.send(false)
-        }
-    })
+app.use(express.static('public'));
+
 
     // db.get('account', { email: req.query.email, password: req.query.password }, function (accounts) {
     //     if (accounts.length == 1) {
@@ -84,7 +60,6 @@ app.get(`${APIversion}/account/login`, (req, res) => {
     //         res.send(false)
     //     }
     // })
-})
 
 // app.post(`${APIversion}/ticket/create`, (req, res) => {
 //     let  = joi.object({
