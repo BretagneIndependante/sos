@@ -4,7 +4,7 @@ const joi = require('joi');
 var mysql = require('mysql');
 const app = express();
 const path = require('path');
-const api = require('./src/js/api/function.js')
+const api = require('./js/api/function.js')
 const multer = require('multer')
 
 require('dotenv').config();
