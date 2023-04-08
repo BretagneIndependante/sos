@@ -3,6 +3,7 @@ const cors = require("cors");
 const joi = require('joi');
 var mysql = require('mysql');
 const app = express();
+const path = require('path');
 const api = require('./src/js/api/function.js')
 const multer = require('multer')
 
@@ -12,7 +13,7 @@ const APIversion = "/API/v1"
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads')
+    cb(null, 'uploads/temp')
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname))
@@ -24,6 +25,9 @@ const upload = multer({
   fileFilter: function (req, file, cb) {
     if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
       return cb(new Error('Only image files are allowed!'))
+    }
+    if(file.size > 100000000) {
+        return cb(new Error('File size is too big! Max size is 100MB'))
     }
     cb(null, true)
   }
@@ -42,8 +46,19 @@ app.get(`${APIversion}/account/login`, async (req, res) => {
     res.status(resp.status).send(resp.message)
 })
 
-app.get(`${APIversion}/ticket/create`, upload.array("images"), async (req, res) => {
-    const resp = await api.createTicket(req.query)
+app.post(`${APIversion}/ticket/create`, upload.array("images"), async (req, res) => {
+    const resp = await api.createTicket(req.body, req.files)
+    res.status(resp.status).send(resp.message)
+})
+
+app.post(`${APIversion}/chat/send`, async (req, res) => {	
+    const resp = await api.sendChat(req.query)
+    res.status(resp.status).send(resp.message)
+})
+
+app.get(`${APIversion}/chat/get`, async (req, res) => {
+    const resp = await api.getChat(req.query)
+    res.header("Content-Type",'application/json');
     res.status(resp.status).send(resp.message)
 })
 

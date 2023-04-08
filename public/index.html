@@ -7,11 +7,22 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="/API/V1/ticket/create" method="POST">
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
+    <form action="/API/V1/ticket/create" method="post" enctype="multipart/form-data">
+        <input name="images" type="file" accept="image/*" multiple>
+        <input name="description" type="text" placeholder="Description">
+        <input type="hidden" id="latitude" name="latitude">
+        <input type="hidden" id="longitude" name="longitude">
         <button type="submit">Login</button>
-        <input type="hidden" name="csrf" value="csrf">
     </form> 
+    <script>
+     // Récupération de la position de l'utilisateur
+     if (navigator.geolocation) {
+       navigator.geolocation.getCurrentPosition(function(position) {
+         // Stockage de la latitude et de la longitude dans les champs de formulaire cachés
+         document.getElementById("latitude").value = position.coords.latitude;
+         document.getElementById("longitude").value = position.coords.longitude;
+       });
+     }
+     </script>
 </body>
 </html>
