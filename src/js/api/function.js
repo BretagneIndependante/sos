@@ -132,6 +132,50 @@ async function createTicket(query, files){
     }
 }
 
+async function getTickets(query){
+    let pattern = joi.object({
+        token: joi.string().required(),
+        account_uuid: joi.string().required()
+    }).options({ allowUnknown: false });
+
+    let { error } = pattern.validate(query);
+
+    if (!error) {
+        const token = query.token;
+        const account_uuid = query.account_uuid;
+
+        const getUserSQL = "SELECT * FROM account WHERE uuid = ? AND token = ?"
+        const getUserParams = [account_uuid, token];
+        const getUser = await executeQuery(getUserSQL, getUserParams).catch(error => {
+            return {
+                status: 400,
+                message: error
+            }
+        })
+
+        if(getUser.length == 0){
+            return {
+                status: 400,
+                message: 'Error: Invalid credentials'
+            }
+        }
+
+        const getTicketsSQL = "SELECT * FROM ticket ORDER BY time_stamp DESC"
+        const getTicketsParams = [account_uuid];
+        const getTickets = await executeQuery(getTicketsSQL, getTicketsParams).catch(error => {
+            return {
+                status: 400,
+                message: error
+            }
+        })
+
+        return {
+            status: 200,
+            message: getTickets
+        }
+    }
+}
+
 async function sendChat(query){
     let pattern = joi.object({
         message: joi.string().required(),
@@ -284,5 +328,6 @@ module.exports = {
     login: login,
     createTicket: createTicket,
     sendChat: sendChat,
-    getChat: getChat
+    getChat: getChat,
+    getTickets: getTickets
 }

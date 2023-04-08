@@ -51,6 +51,12 @@ app.post(`${APIversion}/ticket/create`, upload.array("images"), async (req, res)
     res.status(resp.status).send(resp.message)
 })
 
+app.get(`${APIversion}/ticket/get`, async (req, res) => {
+    const resp = await api.getTickets(req.query)
+    res.header("Content-Type",'application/json');
+    res.status(resp.status).send(resp.message)
+})
+
 app.post(`${APIversion}/chat/send`, async (req, res) => {	
     const resp = await api.sendChat(req.query)
     res.status(resp.status).send(resp.message)
