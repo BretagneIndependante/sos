@@ -9,7 +9,8 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get("http://127.0.0.1:3000/API/v1/account/login", {
+      const token = document.cookie.split(";").find(element => element.includes("token")).split("=")[1];
+      const response = await axios.get("http://localhost:3001/API/v1/account/login?", {
         params: {
           email,
           password
@@ -17,6 +18,13 @@ function Login() {
       });
       localStorage.setItem("token", response.data.token); // Store token in localStorage
       // Redirect to dashboard or homepage, depending on your app
+      if (response.data) {
+        console.log(response)
+        document.cookie = "token=" + response.data;
+        window.location.href = "/admin/" + response.data;
+      } else {
+        setError("Invalid credentials");
+      }
     } catch (error) {
       setError(error.message);
     }
