@@ -10,7 +10,7 @@ const Dashboard = () => {
       </div>
 
       <div className="mt-5 grid grid-cols-1 gap-5">
-        <Map />
+        <Map lat="-1.6777926" long="48.117266" />
       </div>
       <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
         <Chat/>

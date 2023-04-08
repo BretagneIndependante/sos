@@ -15,8 +15,16 @@ export function SidebarLinks(props) {
     return location.pathname.includes(routeName);
   };
 
+  const badgeColor = {
+    "waiting": "bg-red-500",
+    "in-progress": "bg-yellow-300",
+    "completed": "bg-green-300",
+  }
+
   const createLinks = (routes) => {
     return routes.map((route, index) => {
+     
+
       if (
         route.layout === "/admin" ||
         route.layout === "/auth"
@@ -35,8 +43,10 @@ export function SidebarLinks(props) {
                       : "font-medium text-gray-600"
                   }`}
                 >
-                  {route.icon ? route.icon : <DashIcon />}{" "}
                 </span>
+                <div className={
+                  `flex items-center justify-center h-2 w-2 rounded-full ${badgeColor[route.status]}`}>
+                </div>
                 <p
                   className={`leading-1 ml-4 flex ${
                     activeRoute(route.path) === true

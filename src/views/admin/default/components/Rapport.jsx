@@ -20,7 +20,7 @@ const Rapport = () => {
       <Slider image={image.slice(0,5)}/>
 
       <div className="md:mt-16 lg:mt-0 p-2">
-        <textarea className='rounded-[15px] resize-none bg-navy-50 w-full p-4 shadow' placeholder='Ecrivez votre rapport...' name="text" id="" cols="30" rows="10"></textarea>
+        <textarea className='rounded-[15px] resize-none bg-[#F4F7FF] w-full p-4 shadow' placeholder='Ecrivez votre rapport...' name="text" id="" cols="30" rows="10"></textarea>
       </div>
   </Card>
   );

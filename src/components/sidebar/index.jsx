@@ -2,9 +2,23 @@
 
 import { HiX } from "react-icons/hi";
 import Links from "./components/Links";
-import routes from "routes.js";
+import { layout } from "@chakra-ui/system";
 
 const Sidebar = ({ open, onClose }) => {
+  const routes = [
+    {
+      name: "ticket-01",
+      layout: "/admin",
+      path: "ticket-01",
+      status: "waiting"
+    },
+    {
+      name: "ticket-02",
+      layout: "/admin",
+      path: "ticket-02",
+      status: "in-progress"
+    }
+  ];
   return (
     <div
       className={`sm:none duration-175 linear fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all dark:!bg-navy-800 dark:text-white md:!z-50 lg:!z-50 xl:!z-0 ${

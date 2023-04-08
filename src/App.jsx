@@ -6,7 +6,7 @@ import UserLayout from 'layouts/user';
 const App = () => {
   return (
     <Routes>
-      <Route path="admin/*" element={<AdminLayout />} />
+      <Route path="admin/:token" element={<AdminLayout />} />
       <Route path="user/*" element={<UserLayout />} />
       <Route path="/" element={<Navigate to="/admin" replace />} />
     </Routes>
